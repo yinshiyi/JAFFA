@@ -6,7 +6,7 @@ out_name=args[1]
 sfiles=args[2:length(args)]
 summary_files=sfiles
 sfiles=sapply(strsplit(sfiles,"/"),function(x){paste(x[(length(x)-1):length(x)],collapse="/")})
-dir=sapply(strsplit(sfiles,"/"),function(x){x[1]})
+dir = sub("\\.summary$", "", basename(summary_files))
 message("Compiling the results from:")
 message(paste(dir,collapse=" "))
 

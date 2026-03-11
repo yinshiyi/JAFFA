@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # must use bookworm for directly compatible R version >=4.4.0
-FROM debian:bullseye-slim AS base
+FROM debian:bookworm-slim AS base
 
 # get latest version of R: https://cran.r-project.org/bin/linux/debian/
 RUN apt-get update
@@ -19,12 +19,14 @@ RUN gpg --keyserver keyserver.ubuntu.com \
 RUN gpg --armor --export '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' | \
     tee /etc/apt/trusted.gpg.d/cran_debian_key.asc
 
-RUN echo 'deb http://cloud.r-project.org/bin/linux/debian bullseye-cran40/' >> /etc/apt/sources.list
+RUN echo 'deb http://cloud.r-project.org/bin/linux/debian bookworm-cran40/' >> /etc/apt/sources.list
 
 RUN apt-get update
 
 # fix version of Java for bpipe 0.9.9.2
-RUN apt-get install -y r-base-core r-bioc-iranges openjdk-11-jre --no-install-recommends
+RUN apt-get install -y r-base-core openjdk-17-jre --no-install-recommends
+RUN R -e "install.packages('BiocManager', repos='https://cloud.r-project.org')"
+RUN R -e "BiocManager::install('IRanges', ask=FALSE, update=FALSE)"
 
 # install libncurses.so.6 for minimap2
 RUN apt-get install -y libncurses6 --no-install-recommends
