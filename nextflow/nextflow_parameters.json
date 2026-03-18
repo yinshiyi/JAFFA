@@ -1,0 +1,36 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "JAFFA pipeline parameters",
+    "description": "Parameters for running the JAFFA long-read fusion detection pipeline",
+    "type": "object",
+    "$defs": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input data and save output data.",
+            "required": ["fastq", "outdir"],
+            "properties": {
+                "fastq": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "exists": true, 
+                    "description": "Directory containing input FASTQ files for the pipeline.",
+                    "help_text": "This directory must exist and contain at least one .fastq.gz file. Use absolute paths if possible.",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "outdir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "The output directory where results will be saved.",
+                    "fa_icon": "fas fa-folder-open"
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/input_output_options"
+        }
+    ]
+}
