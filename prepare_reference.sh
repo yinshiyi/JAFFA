@@ -9,7 +9,7 @@ JAFFA_DIR=./
 ## For hg38 and gencode49
 GENOME_NAME=hg38
 TRANS_NAME=gencode49
-wget --content-disposition https://figshare.com/ndownloader/files/61624573
+wget --no-check-certificate https://figshare.com/ndownloader/files/61624573
 
 ## For T2T and liftOverGenes uncomment the three lines below
 #GENOME_NAME=hs1
