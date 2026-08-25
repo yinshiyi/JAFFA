@@ -9,7 +9,19 @@ JAFFA_DIR=./
 ## For hg38 and gencode49
 GENOME_NAME=hg38
 TRANS_NAME=gencode49
-wget --content-disposition https://figshare.com/ndownloader/files/61624573
+
+if compgen -G "JAFFA_REFERENCE_FILES_*.small.tar.gz" > /dev/null; then
+    echo "Reference archive already exists, skipping download"
+else
+    wget --content-disposition https://figshare.com/ndownloader/files/61624573
+    if ! compgen -G "JAFFA_REFERENCE_FILES_*.small.tar.gz" > /dev/null; then
+        echo "ERROR: Failed to download JAFFA reference archive."
+        echo "Figshare may have returned an empty temporary response instead of the archive."
+        echo "Please download it manually from: https://figshare.com/ndownloader/files/61624573"
+        echo "Then place the downloaded JAFFA_REFERENCE_FILES_*.small.tar.gz file in this directory and rerun this script."
+        exit 1
+    fi
+fi
 
 ## For T2T and liftOverGenes uncomment the three lines below
 #GENOME_NAME=hs1
