@@ -99,6 +99,7 @@ gapSize=1000 //minimum distance between the two fusion candidates for the 1st fi
 finalGapSize=10000 //minimum distance for the final filtering
 exclude="NoSupport,PotentialReadThrough" //fusions marked with these classifications will be 
                            //thrown away. Can be a comma seperated list. 
+reggap=200 //fusions with a gap (kb) smaller than this, with spanning reads and not a rearrangement, are classed PotentialReadThrough
 reassign_dist=0 //minimum distance between low-confidence fusion and others for it to be reassigned to another breakpoint.
 
 //mapping and counting the coverage
@@ -492,7 +493,7 @@ get_final_list = {
  		else 
                    $make_final_table $input1 $input2 $input3 $transTable  
 		   $knownTable_Mitelman $knownTable_Cosmic $knownTable_CosmicTier $knownTable_GTEx
-		   $finalGapSize $exclude $reassign_dist $excludeChroms $output;
+		   $finalGapSize $reggap $exclude $reassign_dist $excludeChroms $output;
 		 fi;
             ""","get_final_list"
         }

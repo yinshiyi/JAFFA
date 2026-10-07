@@ -38,7 +38,7 @@
 #include <vector>
 
 static const int OVERHANG_MAX = 20;
-static const int REGGAP = 200;              // kb
+static long long REGGAP = 200;              // kb; read-through gap cutoff, set from command line
 static const int TRAN_GAP_MAX = 30;         // bp
 static const int MIN_LOW_SPANNING_READS = 2;
 
@@ -1086,13 +1086,13 @@ static void write_output(const std::string& path, const std::vector<FinalRow>& r
 
 int main(int argc, char** argv) {
   try {
-    if (argc != 14) {
+    if (argc != 15) {
       std::cerr
         << "Usage:\n"
         << "  " << argv[0]
         << " <blat.psl> <fusion_info.reads> <gene_counts> <trans_table>"
         << " <mitelman> <cosmic> <cosmic_tier> <gtex>"
-        << " <gapmin_bp> <exclude_csv> <MIN_REASSIGNMENT_BASE_DIFF>"
+        << " <gapmin_bp> <reggap_kb> <exclude_csv> <MIN_REASSIGNMENT_BASE_DIFF>"
         << " <exclude_chroms_csv> <output>\n";
       return 2;
     }
@@ -1107,10 +1107,11 @@ int main(int argc, char** argv) {
     const std::string known_table_file_gtex = argv[8];
 
     const long long gapmin_bp = to_ll(argv[9], 0);
-    const std::string exclude_csv = argv[10];
-    const long long MIN_REASSIGNMENT_BASE_DIFF = to_ll(argv[11], 0);
-    const std::string exclude_chroms_csv = argv[12];
-    const std::string output_file = argv[13];
+    REGGAP = to_ll(argv[10], 200);
+    const std::string exclude_csv = argv[11];
+    const long long MIN_REASSIGNMENT_BASE_DIFF = to_ll(argv[12], 0);
+    const std::string exclude_chroms_csv = argv[13];
+    const std::string output_file = argv[14];
     const std::set<std::string> excluded_chroms = parse_exclude_chroms(exclude_chroms_csv);
 
     std::cerr << "[INFO] Starting final fusion filtering\n";
